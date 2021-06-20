@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+lint: |
+  set -e
+  yamllint -c .yamllint .
+  ansible-lint .
+driver:
+  name: vagrant
+  provider: 
+    name: virtualbox
+platforms:
+  - name: minecraft-server
+    box: generic/debian10
+    memory: 3072
+    cpu: 1
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

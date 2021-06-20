@@ -1,0 +1,34 @@
+---
+- name: "Configure systemd service"
+  ansible.builtin.template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    mode: '755'
+    owner: root
+    group: root
+  become: true
+  notify:
+    - "systemd daemon-reload"
+    - "restart minecraft service"
+
+- meta: flush_handlers
+
+- name: "Agree to EULA"
+  ansible.builtin.copy:
+    src: "files/eula.txt"
+    dest: "{{ minecraft_unix_user.home }}/eula.txt"
+    mode: '0644'
+    owner: "{{ minecraft_unix_user.name }}"
+    group: "{{ minecraft_unix_user.group }}"
+  become: true
+
+- name: "Setup server properties"
+  ansible.builtin.template:
+    src: server.properties.j2
+    dest: "{{ minecraft_unix_user.home }}/server.properties"
+    mode: '0644'
+    owner: "{{ minecraft_unix_user.name }}"
+    group: "{{ minecraft_unix_user.group }}"
+  become: true
+  notify:
+    - "restart minecraft service"

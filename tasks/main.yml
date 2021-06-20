@@ -1,0 +1,9 @@
+---
+- name: Setup prerequisites
+  import_tasks: prerequisites.yml
+
+- name: Install minecraft server
+  import_tasks: install.yml
+
+- name: Configure minecraft server
+  import_tasks: configure.yml
