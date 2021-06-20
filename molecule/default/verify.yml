@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+
+    - name: Wait for port 25565 to become open on the host
+      ansible.builtin.wait_for:
+        port: 25565
+
+    - name: Gather world files generation status
+      ansible.builtin.stat:
+        path: "/home/minecraft/world"
+      register: world_files_status
+
+    - assert:
+        that:
+          - ansible_facts.services['minecraft.service'].state == 'running'
+          - world_files_status.stat.exists
+          - world_files_status.stat.isdir

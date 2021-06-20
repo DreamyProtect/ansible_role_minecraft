@@ -1,0 +1,12 @@
+---
+- name: "Add unstable debian deb repository for openjdk-16"
+  ansible.builtin.apt_repository:
+    repo: "deb http://http.us.debian.org/debian unstable main non-free contrib"
+    state: present
+  become: true
+
+- name: "Install required packages"
+  ansible.builtin.apt:
+    name: "{{ minecraft_dependencies }}"
+    update_cache: true
+  become: true

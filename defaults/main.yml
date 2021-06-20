@@ -1,0 +1,21 @@
+---
+minecraft_version: "1.17"
+minecraft_jar_url: "https://object-store.par1.openstack.unyc.io/swift/v1/minecraft_binaries/{{ minecraft_version }}_server.jar"
+
+minecraft_dependencies:
+  - "openjdk-16-jdk-headless=16.0.1*"
+
+minecraft_unix_user:
+  name: "minecraft"
+  home: "/home/minecraft"
+  group: "minecraft"
+
+minecraft_java_raw_options:
+  - "-Xms1536M"
+  - "-Xmx1536M"
+
+minecraft_server_raw_options:
+  - "--nogui"
+
+minecraft_server_config:
+  server_ip: "0.0.0.0"

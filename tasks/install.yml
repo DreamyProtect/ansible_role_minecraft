@@ -1,0 +1,22 @@
+---
+- name: "Create unix group"
+  ansible.builtin.group:
+    name: "{{ minecraft_unix_user.group }}"
+  become: true
+
+- name: "Create unix user"
+  ansible.builtin.user:
+    name: "{{ minecraft_unix_user.name }}"
+    home: "{{ minecraft_unix_user.home }}"
+    group: "{{ minecraft_unix_user.group }}"
+    create_home: yes
+  become: true
+
+- name: "Download JAR from S3"
+  ansible.builtin.get_url:
+    url: "{{ minecraft_jar_url }}"
+    dest: "{{ minecraft_unix_user.home }}/server.jar"
+    mode: '0700'
+    owner: "{{ minecraft_unix_user.name }}"
+    group: "{{ minecraft_unix_user.group }}"
+  become: true

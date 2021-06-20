@@ -1,0 +1,13 @@
+[Unit] 
+Description=minecraft-server 
+
+[Service]
+WorkingDirectory={{ minecraft_unix_user.home }}/
+User={{ minecraft_unix_user.name }}
+Group={{ minecraft_unix_user.group }}
+Restart=always
+RestartSec=20 5
+ExecStart=/usr/bin/java {{ minecraft_java_raw_options | join (' ') if minecraft_java_raw_options is defined }} -jar {{ minecraft_unix_user.home }}/server.jar {{ minecraft_server_raw_options | join (' ') if minecraft_server_raw_options is defined }}
+
+[Install]
+WantedBy=multi-user.target
